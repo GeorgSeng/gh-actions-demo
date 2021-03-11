@@ -23,17 +23,6 @@ jobs:
         uses: webfactory/ssh-agent@v0.4.1
         with:
           ssh-private-key: ${{ secrets.ORAVM }}
-#      - name: create .ssh/known_hosts
-#        run: |
-#          ssh-keyscan -H -t rsa -v 130.61.255.109 >> ~/.ssh/known_hosts
-#      - name: copy file to server
-#        env:
-#          mysshkey: ${{ secrets.ORAVM }}
-#        run: |
-#          echo "$mysshkey" > ~/.ssh/gh-key
-#          chmod 600 ~/.ssh/gh-key
-#          scp -i ~/.ssh/gh-key /home/runner/work/gh-actions-demo/gh-actions-demo/target/gh-actions-demo-1.0.0-SNAPSHOT.jar 130.61.255.109:/opt
-
       - name: Publish
         uses: nogsantos/scp-deploy@master
         with:
@@ -52,3 +41,10 @@ jobs:
 #          port: ${{ secrets.SSH_PORT }}
 #          user: ${{ secrets.SSH_USER }}
 #          key: ${{ secrets.SSH_KEY }}
+      - name: start on server
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT.jar
+          host: 130.61.255.109
+          username: ubuntu
+          privateKey: ${{ secrets.ORAVM }}
