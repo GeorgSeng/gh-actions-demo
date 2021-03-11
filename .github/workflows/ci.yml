@@ -34,25 +34,14 @@ jobs:
           port: 22
           user: ubuntu
           key: ${{ secrets.ORAVM }}
-
-    #      - name: Publish
-    #        uses: nogsantos/scp-deploy@master
-    #        with:
-    #          src: ./dist/*
-    #          host: ${{ secrets.SSH_HOST }}
-    #          remote: ${{ secrets.SSH_DIR }}
-    #          port: ${{ secrets.SSH_PORT }}
-    #          user: ${{ secrets.SSH_USER }}
-    #          key: ${{ secrets.SSH_KEY }}
-
-          - name: start on server
-            uses: garygrossgarten/github-action-ssh@release
-            with:
-              command: |
-                java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown
-                ll && exit
-              host: 130.61.255.109
-              username: ubuntu
-              privateKey: ${{ secrets.ORAVM }}
-            env:
-              CI: true
+      - name: start on server
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: |
+            java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown
+            && ls
+          host: 130.61.255.109
+          username: ubuntu
+          privateKey: ${{ secrets.ORAVM }}
+        env:
+          CI: true
