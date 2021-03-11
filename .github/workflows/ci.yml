@@ -48,7 +48,7 @@ jobs:
         with:
           command: |
             java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown
-            exit
+            ll && exit
           host: 130.61.255.109
           username: ubuntu
           privateKey: ${{ secrets.ORAVM }}
