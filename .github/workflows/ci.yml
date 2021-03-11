@@ -45,7 +45,7 @@ jobs:
       - name: start on server
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown
+          command: java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown && exit
           host: 130.61.255.109
           username: ubuntu
           privateKey: ${{ secrets.ORAVM }}
