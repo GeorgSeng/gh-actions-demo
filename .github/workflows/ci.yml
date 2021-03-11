@@ -63,7 +63,6 @@ jobs:
           host: ${{ secrets.ORAVM_HOST }}
           user: ${{ secrets.ORAVM_USER }}
           scp: |
-            ./home/runner/work/gh-actions-demo/gh-actions-demo/target/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar => /opt/
-            ./test/test*.csv => "/home/github/test/test2/"
+            ./home/runner/work/gh-actions-demo/gh-actions-demo/target/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar => "/opt/"
           last_ssh: |
             java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown
