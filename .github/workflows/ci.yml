@@ -49,3 +49,5 @@ jobs:
           host: 130.61.255.109
           username: ubuntu
           privateKey: ${{ secrets.ORAVM }}
+        env:
+          CI: true
