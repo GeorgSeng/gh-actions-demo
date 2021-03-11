@@ -34,14 +34,20 @@ jobs:
           port: 22
           user: ubuntu
           key: ${{ secrets.ORAVM }}
-      - name: start on server
-        uses: garygrossgarten/github-action-ssh@release
+        # not closing connection only after ext and trying to throw an error
+#      - name: start on server
+#        uses: garygrossgarten/github-action-ssh@release
+#        with:
+#          command: |
+#            java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown && exit
+#          host: 130.61.255.109
+#          username: ubuntu
+#          privateKey: ${{ secrets.ORAVM }}
+      - name: start on server 2
+        uses: fifsky/ssh-action@master
         with:
           command: |
-            java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown
-            && ls
-          host: 130.61.255.109
-          username: ubuntu
-          privateKey: ${{ secrets.ORAVM }}
-        env:
-          CI: true
+            java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown && exit
+          host: ${{ secrets.ORAVM_HOST }}
+          user: ${{ secrets.ORAVM_USER }}
+          key: ${{ secrets.ORAVM }}
