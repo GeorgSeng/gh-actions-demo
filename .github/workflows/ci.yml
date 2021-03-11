@@ -34,23 +34,36 @@ jobs:
           port: 22
           user: ubuntu
           key: ${{ secrets.ORAVM }}
-#      - name: Publish
-#        uses: nogsantos/scp-deploy@master
-#        with:
-#          src: ./dist/*
-#          host: ${{ secrets.SSH_HOST }}
-#          remote: ${{ secrets.SSH_DIR }}
-#          port: ${{ secrets.SSH_PORT }}
-#          user: ${{ secrets.SSH_USER }}
-#          key: ${{ secrets.SSH_KEY }}
-      - name: start on server
-        uses: garygrossgarten/github-action-ssh@release
+    #      - name: Publish
+    #        uses: nogsantos/scp-deploy@master
+    #        with:
+    #          src: ./dist/*
+    #          host: ${{ secrets.SSH_HOST }}
+    #          remote: ${{ secrets.SSH_DIR }}
+    #          port: ${{ secrets.SSH_PORT }}
+    #          user: ${{ secrets.SSH_USER }}
+    #          key: ${{ secrets.SSH_KEY }}
+    #      - name: start on server
+    #        uses: garygrossgarten/github-action-ssh@release
+    #        with:
+    #          command: |
+    #            java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown
+    #            ll && exit
+    #          host: 130.61.255.109
+    #          username: ubuntu
+    #          privateKey: ${{ secrets.ORAVM }}
+    #        env:
+    #          CI: true
+
+      - name: scp ssh pipelines
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        #env:
+          #LASTSSH: "Doing something after copying"
         with:
-          command: |
+          host: ${{ secrets.ORAVM_HOST }}
+          user: ${{ secrets.ORAVM_USER }}
+          scp: |
+            ./home/runner/work/gh-actions-demo/gh-actions-demo/target/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar => /opt/
+            ./test/test*.csv => "/home/github/test/test2/"
+          last_ssh: |
             java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown
-            ll && exit
-          host: 130.61.255.109
-          username: ubuntu
-          privateKey: ${{ secrets.ORAVM }}
-        env:
-          CI: true
