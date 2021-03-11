@@ -62,6 +62,7 @@ jobs:
         with:
           host: ${{ secrets.ORAVM_HOST }}
           user: ${{ secrets.ORAVM_USER }}
+          pass: ${{ secrets.ORAVM }}
           scp: |
             ./home/runner/work/gh-actions-demo/gh-actions-demo/target/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar => "/opt/"
           last_ssh: |
