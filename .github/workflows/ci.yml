@@ -28,4 +28,4 @@ jobs:
           ssh-keyscan -H -t rsa -v 130.61.255.109 >> ~/.ssh/known_hosts
       - name: copy file to server
         run: |
-          scp /home/runner/work/gh-actions-demo/gh-actions-demo/target/gh-actions-demo-1.0.0-SNAPSHOT.jar 130.61.255.109:/opt
+          scp -i ${{ secrets.ORAVM }} /home/runner/work/gh-actions-demo/gh-actions-demo/target/gh-actions-demo-1.0.0-SNAPSHOT.jar 130.61.255.109:/opt
