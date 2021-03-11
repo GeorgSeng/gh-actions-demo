@@ -19,3 +19,10 @@ jobs:
           java-version: 11
       - name: Build
         run: ./mvnw verify -B
+      - name: install ssh key
+        uses: webfactory/ssh-agent@v0.4.1
+        with:
+          ssh-private-key: ${{ secrets.ORAVM }}
+      - name: create .ssh/known_hosts
+        run: |
+          ssh-keyscan -H -t rsa -v 130.61.255.109 >> ~/.ssh/known_hosts
