@@ -11,7 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -19,35 +18,16 @@ jobs:
         with:
           java-version: 11
       - name: Build
-        #run: ./mvnw verify -B
-        run: ./mvnw package -B
+        run: ./mvnw clean package -Dquarkus.package.type=uber-jar -B
       - name: install ssh key
         uses: webfactory/ssh-agent@v0.4.1
         with:
-          ssh-private-key: ${{ secrets.ORAVM }}
-      - name: Publish
-        uses: nogsantos/scp-deploy@master
-        with:
-          src: /home/runner/work/gh-actions-demo/gh-actions-demo/target/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar
-          host: 130.61.255.109
-          remote: /opt
-          port: 22
-          user: ubuntu
-          key: ${{ secrets.ORAVM }}
-        # not closing connection only after ext and trying to throw an error
-#      - name: start on server
-#        uses: garygrossgarten/github-action-ssh@release
-#        with:
-#          command: |
-#            java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown && exit
-#          host: 130.61.255.109
-#          username: ubuntu
-#          privateKey: ${{ secrets.ORAVM }}
-      - name: start on server 2
-        uses: fifsky/ssh-action@master
-        with:
-          command: |
-            java -jar /opt/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar & disown && exit
-          host: ${{ secrets.ORAVM_HOST }}
-          user: ${{ secrets.ORAVM_USER }}
-          key: ${{ secrets.ORAVM }}
+          ssh-private-key: ${{ secrets.ORAVM_KEY }}
+      - name: create .ssh/known_hosts
+        run: |
+          ssh-keyscan -H -t rsa -v ${{ secrets.ORAVM_IP }}  >> ~/.ssh/known_hosts
+      - name: copy binaries to oravm
+        run: |
+          echo "Hallo ich bin hier"
+          ls -l target/
+          scp target/gh-actions-demo-1.0.0-SNAPSHOT-runner.jar ${{ secrets.ORAVM_USER }}@${{ secrets.ORAVM_IP }}:
