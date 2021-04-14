@@ -8,7 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/bg-api")
+@Path("/bg-api/game")
 public class BoardGameResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
